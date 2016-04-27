@@ -1,14 +1,16 @@
 #define LED_A 5
 #define LED_B 6
 #define LED_C 7
-#define SLEEP 100
+#define SLEEP 30
 
 // 0 - simple
 // 1 - bounce
-// 2
+// 2 - chaser
 #define PATTERN 2
 
 void setup() {
+  Serial.begin(9600);
+
   pinMode(LED_A, INPUT);
   pinMode(LED_B, INPUT);
   pinMode(LED_C, INPUT);
@@ -25,20 +27,15 @@ void loop() {
       break;
 
     case 2:
-    //  int a[0];
-    //  a[0] = 1;
-    //  a[1] = 2;
-    //  a[2] = 3;
-    //  light_n(a);
       chaser();
       break;
   }
 }
 
 void chaser() {
-  for (int i = 0; i <= 6; i++) {
+  for (int i = -1; i <= 7; i++) {
     int a[0];
-    for (int j = 0; j < 2; j++) {
+    for (int j = 0; j < 4; j++) {
       a[j] = j + i;
     }
 
@@ -49,12 +46,11 @@ void chaser() {
 
 void light_n(int list[]) {
   for (int i = 0; i < SLEEP / sizeof(list); i++) {
-    for (int j = 0; j <= sizeof(list) + 1; j++) {
+    for (int j = 0; j <= sizeof(list); j++) {
       light_led(list[j]);
       delay(1);
     }
   }
-  
   reset_pins();
 }
 
