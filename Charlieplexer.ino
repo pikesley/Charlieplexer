@@ -1,16 +1,14 @@
 #define LED_A 5
 #define LED_B 6
 #define LED_C 7
-#define SLEEP 30
+#define SLEEP 100
 
 // 0 - simple
 // 1 - bounce
 // 2 - chaser
-#define PATTERN 2
+#define PATTERN 1
 
 void setup() {
-  Serial.begin(9600);
-
   pinMode(LED_A, INPUT);
   pinMode(LED_B, INPUT);
   pinMode(LED_C, INPUT);
@@ -63,23 +61,21 @@ void simple() {
 }
 
 void bounce() {
-  for (int i = 2; i < 5; i++)
+  for (int i = 1; i <= 6; i++)
   {
     light_led(i);
     delay(SLEEP); 
   }
   
-  light_led(6);
-  delay(SLEEP * 3);
 
-  for (int i = 5; i > 1; i--)
+
+  for (int i = 6; i >= 1; i--)
   {
     light_led(i);
     delay(SLEEP);
   }
 
-  light_led(1);
-  delay(SLEEP * 3);
+
 }
 
 void reset_pins() {
