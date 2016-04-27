@@ -1,7 +1,12 @@
 #define LED_A 5
 #define LED_B 6
 #define LED_C 7
-#define SLEEP 50
+#define SLEEP 500
+
+// 0 - simple
+// 1 - bounce
+// 2
+#define PATTERN 2
 
 void setup() {
   pinMode(LED_A, INPUT);
@@ -10,12 +15,63 @@ void setup() {
 }
 
 void loop() {
-  // loop through one at a time
-  for (int i=1; i<=6; i++)
+  switch (PATTERN) {
+    case 0:
+      simple();
+      break;
+    
+    case 1:
+      bounce();
+      break;
+
+    case 2:
+      int a[0];
+      a[0] = 1;
+      a[1] = 2;
+      a[2] = 3;
+      a[3] = 4;
+      light_n(a);
+      break;
+  }
+}
+
+void light_n(int list[]) {
+  for (int i = 0; i < SLEEP / sizeof(list); i++) {
+      for (int j = 0; j <= sizeof(list) + 1; j++) {
+        light_led(list[j]);
+        delay(1);
+      }
+  }
+  reset_pins();
+  delay(SLEEP);
+}
+
+void simple() {
+  for (int i = 1; i <= 6; i++)
   {
     light_led(i);
     delay(SLEEP); 
   }
+}
+
+void bounce() {
+  for (int i = 2; i < 5; i++)
+  {
+    light_led(i);
+    delay(SLEEP); 
+  }
+  
+  light_led(6);
+  delay(SLEEP * 3);
+
+  for (int i = 5; i > 1; i--)
+  {
+    light_led(i);
+    delay(SLEEP);
+  }
+
+  light_led(1);
+  delay(SLEEP * 3);
 }
 
 void reset_pins() {
