@@ -1,7 +1,7 @@
 #define LED_A 5
 #define LED_B 6
 #define LED_C 7
-#define SLEEP 500
+#define SLEEP 100
 
 // 0 - simple
 // 1 - bounce
@@ -25,25 +25,37 @@ void loop() {
       break;
 
     case 2:
-      int a[0];
-      a[0] = 1;
-      a[1] = 2;
-      a[2] = 3;
-      a[3] = 4;
-      light_n(a);
+    //  int a[0];
+    //  a[0] = 1;
+    //  a[1] = 2;
+    //  a[2] = 3;
+    //  light_n(a);
+      chaser();
       break;
+  }
+}
+
+void chaser() {
+  for (int i = 0; i <= 6; i++) {
+    int a[0];
+    for (int j = 0; j < 2; j++) {
+      a[j] = j + i;
+    }
+
+    light_n(a);
+    delay(SLEEP);
   }
 }
 
 void light_n(int list[]) {
   for (int i = 0; i < SLEEP / sizeof(list); i++) {
-      for (int j = 0; j <= sizeof(list) + 1; j++) {
-        light_led(list[j]);
-        delay(1);
-      }
+    for (int j = 0; j <= sizeof(list) + 1; j++) {
+      light_led(list[j]);
+      delay(1);
+    }
   }
+  
   reset_pins();
-  delay(SLEEP);
 }
 
 void simple() {
