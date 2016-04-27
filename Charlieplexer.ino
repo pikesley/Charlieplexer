@@ -1,7 +1,7 @@
 #define LED_A 5
 #define LED_B 6
 #define LED_C 7
-#define SLEEP 100
+#define SLEEP 50
 
 // 0 - simple
 // 1 - bounce
@@ -33,6 +33,7 @@ void loop() {
 void chaser() {
   for (int i = -1; i <= 7; i++) {
     int a[0];
+    
     for (int j = 0; j < 4; j++) {
       a[j] = j + i;
     }
@@ -61,21 +62,15 @@ void simple() {
 }
 
 void bounce() {
-  for (int i = 1; i <= 6; i++)
-  {
+  for (int i = 1; i <= 6; i++) {
     light_led(i);
     delay(SLEEP); 
   }
-  
 
-
-  for (int i = 6; i >= 1; i--)
-  {
+  for (int i = 6; i >= 1; i--) {
     light_led(i);
     delay(SLEEP);
   }
-
-
 }
 
 void reset_pins() {
