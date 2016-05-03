@@ -2,17 +2,17 @@
 #define LED_B 5
 #define LED_C 6
 #define LED_D 7
-#define SLEEP 50
-#define CHASE_WIDTH 5
-#define LIGHTS 15
+#define SLEEP 20
+#define CHASE_WIDTH 10
+#define LIGHTS 12
 
 // 0 - simple
 // 1 - bounce
 // 2 - chaser
-#define PATTERN 2
+#define PATTERN 4
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   pinMode(LED_A, INPUT);
   pinMode(LED_B, INPUT);
   pinMode(LED_C, INPUT);
@@ -32,6 +32,45 @@ void loop() {
     case 2:
       chaser(CHASE_WIDTH);
       break;
+
+    case 3:
+      roller();
+      break;
+
+    case 4:
+      counter();
+      break;
+  }
+}
+
+void counter() {
+  for (int i = 0; i < 4096; i++) {
+    String s = (String(i, BIN));
+    Serial.println(s);
+    delay(100);
+  }
+}
+
+void roller() {
+  for (int i = 0; i < LIGHTS; i++) {
+    int a[CHASE_WIDTH];
+    for (int j = 0; j < CHASE_WIDTH; j++) {
+      int insert = i + j;
+      if (insert > LIGHTS - 1) {
+        insert = insert - LIGHTS;
+      }
+      a[j] = insert;
+      light_array(a, CHASE_WIDTH);
+    }
+  }
+}
+
+void light_array(int list[], int width) {
+  for (int i = 0; i < SLEEP / width; i++) {
+    for (int j = 0; j < width; j++) {
+      light_led(list[j]);
+      delay(1); 
+    }
   }
 }
 
@@ -57,17 +96,15 @@ void simple() {
     light_led(i);
     delay(SLEEP); 
   }
-
-  Serial.println("------");
 }
 
 void bounce() {
-  for (int i = 1; i <= LIGHTS; i++) {
+  for (int i = 0; i < LIGHTS; i++) {
     light_led(i);
     delay(SLEEP); 
   }
 
-  for (int i = LIGHTS; i >= 1; i--) {
+  for (int i = LIGHTS - 1; i >= 0; i--) {
     light_led(i);
     delay(SLEEP);
   }
@@ -105,46 +142,46 @@ void set_pins(int high_pin, int low_pin) {
 
 void light_led(int led_num) {
   switch (led_num) {
-  case 1:
+  case 0:
     set_pins(LED_B, LED_A);
     break;
-  case 2:
+  case 1:
     set_pins(LED_A, LED_B);
     break;
     
-  case 3:
+  case 2:
     set_pins(LED_C, LED_B);
     break;
-  case 4:
+  case 3:
     set_pins(LED_B, LED_C);
     break;
     
-  case 5:
+  case 4:
     set_pins(LED_C, LED_A);
     break;
-  case 6:
+  case 5:
     set_pins(LED_A, LED_C); 
     break;
     
-  case 7:
+  case 6:
     set_pins(LED_D, LED_A); 
     break;  
-  case 8:
+  case 7:
     set_pins(LED_A, LED_D); 
     break;
       
-  case 9:
+  case 8:
     set_pins(LED_D, LED_B); 
     break;
-  case 10:
+  case 9:
     set_pins(LED_B, LED_D); 
     break;
 
-  case 11:
+  case 10:
     set_pins(LED_D, LED_C); 
     break;
 
-  case 12:
+  case 11:
     set_pins(LED_C, LED_D); 
     break;
   }
