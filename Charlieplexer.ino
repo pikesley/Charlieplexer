@@ -2,14 +2,14 @@
 #define LED_B 5
 #define LED_C 6
 #define LED_D 7
-#define SLEEP 20
-#define CHASE_WIDTH 10
+#define SLEEP 10
+#define CHASE_WIDTH 6
 #define LIGHTS 12
 
 // 0 - simple
 // 1 - bounce
 // 2 - chaser
-#define PATTERN 4
+#define PATTERN 3
 
 void setup() {
   Serial.begin(9600);
@@ -66,7 +66,8 @@ void roller() {
 }
 
 void light_array(int list[], int width) {
-  for (int i = 0; i < SLEEP / width; i++) {
+  float limit = SLEEP / width;
+  for (int i = 0; i < limit; i++) {
     for (int j = 0; j < width; j++) {
       light_led(list[j]);
       delay(1); 
